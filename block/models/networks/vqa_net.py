@@ -112,6 +112,14 @@ class VQANet(nn.Module):
         out['answer_ids'] = [pred[i] for i in range(batch_size)]
         return out
 
+    def process_answer(self, out):
+        batch_size = out['logits'].shape[0]
+        _, pred = out['logits'].data.max(1)
+        pred.squeeze_()
+        out['answers'] = self.aid_to_ans[pred]
+        out['answer_ids'] = pred
+        return out
+
 
 class Attention(nn.Module):
 

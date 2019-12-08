@@ -60,7 +60,9 @@ class VQA2(AbstractVQA):
         question = self.dataset['questions'][index]
         if self.load_original_annotation:
             item['original_question'] = question
-
+        print("question: {}".format(question))
+        question_str = question['question']
+        image_name = question['image_name']
         item['question_id'] = question['question_id']
         item['question'] = torch.LongTensor(question['question_wids'])
         item['lengths'] = torch.LongTensor([len(question['question_wids'])])
@@ -88,7 +90,7 @@ class VQA2(AbstractVQA):
                 item['is_testdev'] = True
             else:
                 item['is_testdev'] = False
-        return item
+        return item, question_str, image_name
 
     def download(self):
         dir_zip = osp.join(self.dir_raw, 'zip')
